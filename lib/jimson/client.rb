@@ -49,7 +49,7 @@ module Jimson
         'params'  => args,
         'id'      => format_post_id(self.class.make_id)
       })
-      resp = RestClient::Request.execute(@client_opts.merge(:method => :post, :url => @url, :payload => post_data, :headers => @headers))
+      resp = RestClient::Request.execute(@client_opts.merge(:method => :post, :url => @url, :payload => post_data, :headers => @headers, :timeout => 180))
       if resp.nil? || resp.body.nil? || resp.body.empty?
         raise Client::Error::InvalidResponse.new(resp)
       end
@@ -59,7 +59,7 @@ module Jimson
 
     def send_batch_request(batch)
       post_data = MultiJson.encode(batch)
-      resp = RestClient::Request.execute(@client_opts.merge(:method => :post, :url => @url, :payload => post_data, :headers => @headers))
+      resp = RestClient::Request.execute(@client_opts.merge(:method => :post, :url => @url, :payload => post_data, :headers => @headers, :timeout => 180))
       if resp.nil? || resp.body.nil? || resp.body.empty?
         raise Client::Error::InvalidResponse.new(resp)
       end
